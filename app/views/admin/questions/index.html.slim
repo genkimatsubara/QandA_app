@@ -1,0 +1,29 @@
+h1 管理画面：質問一覧
+
+.mb-3
+table.table.table-hover
+
+= search_form_for [:admin, @q], class: 'my-5' do |f| 
+  .form-group.row
+    .col-sm-10
+      = f.search_field :title_cont, class: 'form-control', placeholder: '検索ワード'
+    .col-sm-2
+      = f.submit class: ' btn btn-outline-primary'
+  
+.mb-3
+table.table.table-hover
+
+
+  tbody
+    - @questions.each do |question|
+      tr
+        td= link_to "/users/#{question.user.id}"
+          - if question.user.avatar?
+            = image_tag question.user.avatar.url, :class => 'rounded-circle', :size =>'32x32'
+          - else
+            = image_tag 'icons8-male-user-90', :class => 'rounded-circle', :size =>'32x32'
+        td= question.title
+        td= link_to '削除', [:admin, question], method: :delete, data: { confirm: "質問「#{question.title}」を削除します。よろしいですか?" }, class: 'btn btn-danger'
+        
+.mb-3
+  = paginate @questions

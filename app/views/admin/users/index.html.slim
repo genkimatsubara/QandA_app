@@ -1,0 +1,26 @@
+h1 管理画面：ユーザー一覧
+
+= search_form_for [:admin, @q], class: 'my-5' do |f| 
+  .form-group.row
+    .col-sm-10
+      = f.search_field :name_cont, class: 'form-control', placeholder: '検索ワード'
+    .col-sm-2
+      = f.submit class: ' btn btn-outline-primary'
+
+.mb-3
+table.table.table-hover
+  thead.thead-default
+  tbody
+    - @users.each do |user|
+      tr
+        td= link_to user
+          - if user.avatar?
+            = image_tag user.avatar.url, :class => 'rounded-circle', :size =>'32x32' 
+          - else
+            = image_tag 'icons8-male-user-90', :class => 'rounded-circle', :size =>'32x32'
+        td= link_to user.name, user
+        td= link_to '削除', [:admin, user], method: :delete, data: { confirm: "ユーザー「#{user.name}」を削除します。よろしいですか?" }, class: 'btn btn-danger'
+        
+.mb-3
+  = paginate @users
+

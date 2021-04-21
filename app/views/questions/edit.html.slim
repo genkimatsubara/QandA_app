@@ -1,0 +1,22 @@
+h1 質問の編集
+
+
+- if @question.errors.present?
+  ul#error_explanation
+    - question.errors.full_messages.each do |message|
+      li= message
+
+.nav.justify-content-end
+  = link_to '一覧', questions_path, class: 'btn btn-primary'
+
+= form_with model: @question, local: true do |f|
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'form-control', id: 'question_title'
+  .form-group
+    = f.label :body
+    = f.text_area :body, rows: 5, class: 'form-control', id: 'question_body'
+  .form-group
+    =f.label :status
+    = f.select :status, [['未解決',0],['解決',1]], {}, class: 'form-control', id: 'question_status'
+  = f.submit nil, class: 'btn btn-primary'

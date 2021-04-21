@@ -1,0 +1,20 @@
+h1 新規質問
+  
+- if @question.errors.present?
+  ul#error_explanation
+    - question.errors.full_messages.each do |message|
+      li= message
+
+.nav.justify-content-end
+  = link_to '一覧', questions_path, class: 'btn btn-primary'
+
+= form_with model: @question, local: true do |f|
+  .form-group
+    = f.label :title
+    = f.text_field :title, class: 'form-control', id: 'question_title'
+  .form-group
+    = f.label :body
+    = f.text_area :body, rows: 5, class: 'form-control', id: 'question_body'
+  .form-group
+    =f.hidden_field :status,:value => 0, id: 'question_status'
+  = f.submit nil, class: 'btn btn-primary'

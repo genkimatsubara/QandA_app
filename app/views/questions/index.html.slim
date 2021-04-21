@@ -1,0 +1,33 @@
+h1 質問一覧
+
+= link_to '新規質問', new_question_path, class: 'btn btn-primary'
+
+= link_to 'すべて', questions_path, class: 'btn btn-outline-primary btn-sm ml-2'
+= link_to '未解決', solved_questions_path, class: 'btn btn-outline-primary btn-sm ml-1'
+= link_to '解決済み', unsolved_questions_path, class: 'btn btn-outline-primary btn-sm ml-1'
+  
+
+= search_form_for @q, class: 'my-5' do |f| 
+  .form-group.row
+    .col-sm-10
+      = f.search_field :title_cont, class: 'form-control', placeholder: '検索ワード'
+    .col-sm-2
+      = f.submit class: ' btn btn-outline-primary'
+
+   
+
+.mb-3
+table.table.table-hover
+  tbody
+    - @questions.each do |question|
+      tr
+        td= link_to "/users/#{question.user.id}"
+          - if question.user.avatar?
+            = image_tag question.user.avatar.url, :class => 'rounded-circle', :size =>'32x32'
+          - else
+            = image_tag 'icons8-male-user-90', :class => 'rounded-circle', :size =>'32x32'
+        td= link_to question.title, question
+     
+
+.mb-3
+  = paginate @questions
